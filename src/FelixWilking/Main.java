@@ -3,21 +3,34 @@ package FelixWilking;
 public class Main {
 
     public static void main(String[] args) {
-
+        long time = System.nanoTime();
+        int[] arr = randIntArr(10, 10);
+        for(int i : selectionSort(arr)){
+            System.out.print(i + " ");
+        }
+        System.out.println("\n" + (System.nanoTime() - time));
     }
 
     public static int[] selectionSort(int[] arr){
-        int lowest = arr[0];
+        boolean found = true;
         int searchi = 0;
-        while !(isSorted(arr)) {
+        while (!isSorted(arr)) {
             for (int i = 0; i < arr.length; i++) {
-                if (arr[i] < lowest) {
-                    lowest = arr[i];
+                found = true;
+                for (int j = 0; j < arr.length; j++) {
+                    if (arr[i] > arr[j]) {
+                        found = false;
+                        break;
+                    }
+                }
+                if (found) {
+                    System.out.println(i + " " + searchi);
+                    swap(arr, i, searchi);
                     searchi++;
                 }
-                swap(arr, i, searchi);
             }
         }
+        return arr;
     }
 
     public static void swap(int[] arr, int i, int j){
@@ -26,13 +39,18 @@ public class Main {
         arr[j] = temp;
     }
 
-    public static int[] isSorted(int[] arr){
-        int sum = 0;
-        int product = 1;
-        for(int i : arr){
-            sum += i;
-            product = product * ((int) i / 2);
+    public static int[] randIntArr(int len, int range){
+        int[] output = new int[len];
+        for (int i = 0; i < len; i++){
+            output[i] = (int) (Math.random() * (range + 1));
         }
-        return new int[]{sum, product};
+        return output;
+    }
+
+    public static boolean isSorted(int[] arr){
+        for (int i = 2; i < arr.length; i += 2){
+            if (arr[i] < arr[i - 2]) return false;
+        }
+        return true;
     }
 }
