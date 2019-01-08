@@ -3,31 +3,20 @@ package FelixWilking;
 public class Main {
 
     public static void main(String[] args) {
-        long time = System.nanoTime();
         int[] arr = randIntArr(10, 10);
-        for(int i : selectionSort(arr)){
-            System.out.print(i + " ");
-        }
+
+        for(int i : arr) System.out.print(i + " ");
+        System.out.println();
+
+        long time = System.nanoTime();
+        for(int i : selectionSort(arr)) System.out.print(i + " ");
         System.out.println("\n" + (System.nanoTime() - time));
     }
 
     public static int[] selectionSort(int[] arr){
-        boolean found = true;
-        int searchi = 0;
         while (!isSorted(arr)) {
             for (int i = 0; i < arr.length; i++) {
-                found = true;
-                for (int j = 0; j < arr.length; j++) {
-                    if (arr[i] > arr[j]) {
-                        found = false;
-                        break;
-                    }
-                }
-                if (found) {
-                    System.out.println(i + " " + searchi);
-                    swap(arr, i, searchi);
-                    searchi++;
-                }
+                swap(arr, i, minimum(arr, i));
             }
         }
         return arr;
@@ -52,5 +41,12 @@ public class Main {
             if (arr[i] < arr[i - 2]) return false;
         }
         return true;
+    }
+
+    public static int minimum(int[] arr, int index){
+        for(int i = index; i < arr.length; i++){
+            if(arr[i] < arr[index]) index = i;
+        }
+        return index;
     }
 }
